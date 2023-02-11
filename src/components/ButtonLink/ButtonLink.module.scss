@@ -1,0 +1,16 @@
+@import '../../assets/scss/variables';
+
+.button-link {
+	display: inline-block;
+	font-size: 20px;
+	padding: 12px 25px;
+	border-radius: 30px;
+	color: white;
+	transition: all $duration ease-in-out;
+	background-color: $black;
+
+	&:hover,
+	&:active {
+		background-color: lighten($color: $black, $amount: 10);
+	}
+}
