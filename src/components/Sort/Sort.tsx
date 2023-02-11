@@ -1,6 +1,17 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
+
+const sortLabelData: string[] = ['популярности', 'цене', 'алфавиту']
 
 export const Sort: FC = () => {
+	const [open, setOpen] = useState<boolean>(false)
+	const [sortLabelIndex, setSortLabelIndex] = useState<number>(0)
+	const sortLabel = sortLabelData[sortLabelIndex]
+
+	const sortLabelHandler = (index: number) => {
+		setSortLabelIndex(index)
+		setOpen(!open)
+	}
+
 	return (
 		<div className='sort'>
 			<div className='sort__label'>
@@ -17,15 +28,23 @@ export const Sort: FC = () => {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span>популярности</span>
+				<span onClick={() => setOpen(!open)}>{sortLabel}</span>
 			</div>
-			<div className='sort__popup'>
-				<ul>
-					<li className='active'>популярности</li>
-					<li>цене</li>
-					<li>алфавиту</li>
-				</ul>
-			</div>
+			{open && (
+				<div className='sort__popup'>
+					<ul>
+						{sortLabelData.map((label, index) => (
+							<li
+								key={label}
+								className={sortLabelIndex === index ? 'active' : ''}
+								onClick={() => sortLabelHandler(index)}
+							>
+								{label}
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
 		</div>
 	)
 }
