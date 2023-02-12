@@ -1,12 +1,13 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { Logo } from '..'
+import { Logo, Search } from '..'
 
 export const Header: FC = () => {
 	return (
 		<div className='header'>
 			<div className='container'>
 				<Logo />
+				<Search />
 				<div className='header__cart'>
 					<Link to='/cart' className='button button--cart'>
 						<span>520 ₽</span>

@@ -1,14 +1,29 @@
 import { FC, useState } from 'react'
 
-const sortLabelData: string[] = ['популярности', 'цене', 'алфавиту']
+interface ISortLabelData {
+	name: string
+	sortProperty: string
+}
 
-export const Sort: FC = () => {
+const sortLabelData: ISortLabelData[] = [
+	{ name: 'популярности (DESC)', sortProperty: 'rating' },
+	{ name: 'популярности (ASC)', sortProperty: '-rating' },
+	{ name: 'цене (DESC)', sortProperty: 'price' },
+	{ name: 'цене (ASC)', sortProperty: '-price' },
+	{ name: 'алфавиту (DESC)', sortProperty: 'title' },
+	{ name: 'алфавиту (ASC)', sortProperty: '-title' },
+]
+
+interface ISortPops {
+	sortType: ISortLabelData
+	setSortType: (sort: ISortLabelData) => void
+}
+
+export const Sort: FC<ISortPops> = ({ sortType, setSortType }) => {
 	const [open, setOpen] = useState<boolean>(false)
-	const [sortLabelIndex, setSortLabelIndex] = useState<number>(0)
-	const sortLabel = sortLabelData[sortLabelIndex]
 
-	const sortLabelHandler = (index: number) => {
-		setSortLabelIndex(index)
+	const sortLabelHandler = (sort: ISortLabelData) => {
+		setSortType(sort)
 		setOpen(!open)
 	}
 
@@ -28,18 +43,20 @@ export const Sort: FC = () => {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={() => setOpen(!open)}>{sortLabel}</span>
+				<span onClick={() => setOpen(!open)}>{sortType.name}</span>
 			</div>
 			{open && (
 				<div className='sort__popup'>
 					<ul>
-						{sortLabelData.map((label, index) => (
+						{sortLabelData.map(obj => (
 							<li
-								key={label}
-								className={sortLabelIndex === index ? 'active' : ''}
-								onClick={() => sortLabelHandler(index)}
+								key={obj.name}
+								className={
+									sortType.sortProperty === obj.sortProperty ? 'active' : ''
+								}
+								onClick={() => sortLabelHandler(obj)}
 							>
-								{label}
+								{obj.name}
 							</li>
 						))}
 					</ul>

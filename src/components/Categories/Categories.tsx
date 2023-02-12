@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 const categoryArray: string[] = [
 	'Все',
@@ -9,23 +9,25 @@ const categoryArray: string[] = [
 	'Закрытые',
 ]
 
-export const Categories: FC = () => {
-	const [activeCategory, setActiveCategory] = useState<number>(0)
+interface ICategoryProps {
+	categoryId: number
+	setCategoryId: (index: number) => void
+}
 
-	const categoryHandler = (index: number) => {
-		setActiveCategory(index)
-	}
-
+export const Categories: FC<ICategoryProps> = ({
+	categoryId,
+	setCategoryId,
+}) => {
 	return (
 		<div className='categories'>
 			<ul>
-				{categoryArray.map((category, index) => (
+				{categoryArray.map((categoryName, index) => (
 					<li
-						key={category}
-						className={activeCategory === index ? 'active' : ''}
-						onClick={() => categoryHandler(index)}
+						key={categoryName}
+						className={categoryId === index ? 'active' : ''}
+						onClick={() => setCategoryId(index)}
 					>
-						{category}
+						{categoryName}
 					</li>
 				))}
 			</ul>
