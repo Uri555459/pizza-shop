@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Link } from 'react-router-dom'
+
 import { ButtonLink } from '../../components'
 
 import styles from './NotFound.module.scss'
