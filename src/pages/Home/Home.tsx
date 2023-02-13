@@ -1,6 +1,13 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
+import { IMyContext, MyContext } from '../../App'
 
-import { Categories, Product, ProductSkeleton, Sort } from '../../components'
+import {
+	Categories,
+	Pagination,
+	Product,
+	ProductSkeleton,
+	Sort,
+} from '../../components'
 import { instanceAxios } from '../../helpers/helpers'
 import { IProduct } from '../../Types/product.interface'
 
@@ -8,6 +15,9 @@ export const Home: FC = () => {
 	const [products, setProducts] = useState<IProduct[]>([])
 	const [loading, setLoading] = useState<boolean>(true)
 	const [categoryId, setCategoryId] = useState<number>(0)
+	const [currentPage, setCurrentPage] = useState<number>(1)
+	const itemsPerPage = 4
+	const { searchValue } = useContext(MyContext) as IMyContext
 	const [sortType, setSortType] = useState<{
 		name: string
 		sortProperty: string
@@ -19,16 +29,21 @@ export const Home: FC = () => {
 	useEffect(() => {
 		setLoading(true)
 
+		// Query parameters
 		const category = categoryId > 0 ? `category=${categoryId}` : ''
 		const sortBy = sortType.sortProperty.replace('-', '')
 		const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+		const search = searchValue ? `&search=${searchValue}` : ''
 
+		// Query
 		instanceAxios
-			.get<IProduct[]>(`/products?${category}&sortBy=${sortBy}&order=${order}`)
+			.get<IProduct[]>(
+				`/products?page=${currentPage}&limit=${itemsPerPage}&${category}&sortBy=${sortBy}&order=${order}${search}`
+			)
 			.then(({ data }) => setProducts(data))
-		// FIXME: Delete setTimeout
+		// FIXME: Delete setTimeout (Fake delay response server)
 		setTimeout(() => setLoading(false), 1000)
-	}, [categoryId, sortType])
+	}, [categoryId, sortType, searchValue, currentPage])
 
 	return (
 		<div className='content'>
@@ -47,6 +62,9 @@ export const Home: FC = () => {
 								<Product key={product.id} {...product} />
 						  ))}
 				</div>
+				<Pagination
+					onChangePageHandler={pageIndex => setCurrentPage(pageIndex)}
+				/>
 			</div>
 		</div>
 	)
