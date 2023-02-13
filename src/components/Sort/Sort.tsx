@@ -1,4 +1,8 @@
 import { FC, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
+
+import { setSort } from '../../redux/filter/filterSlice'
 
 interface ISortLabelData {
 	name: string
@@ -14,16 +18,13 @@ const sortLabelData: ISortLabelData[] = [
 	{ name: 'алфавиту (ASC)', sortProperty: '-title' },
 ]
 
-interface ISortPops {
-	sortType: ISortLabelData
-	setSortType: (sort: ISortLabelData) => void
-}
-
-export const Sort: FC<ISortPops> = ({ sortType, setSortType }) => {
+export const Sort: FC = () => {
 	const [open, setOpen] = useState<boolean>(false)
+	const sort = useSelector((state: RootState) => state.filter.sort)
+	const dispatch = useDispatch()
 
 	const sortLabelHandler = (sort: ISortLabelData) => {
-		setSortType(sort)
+		dispatch(setSort(sort))
 		setOpen(!open)
 	}
 
@@ -43,7 +44,7 @@ export const Sort: FC<ISortPops> = ({ sortType, setSortType }) => {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={() => setOpen(!open)}>{sortType.name}</span>
+				<span onClick={() => setOpen(!open)}>{sort.name}</span>
 			</div>
 			{open && (
 				<div className='sort__popup'>
@@ -52,7 +53,7 @@ export const Sort: FC<ISortPops> = ({ sortType, setSortType }) => {
 							<li
 								key={obj.name}
 								className={
-									sortType.sortProperty === obj.sortProperty ? 'active' : ''
+									sort.sortProperty === obj.sortProperty ? 'active' : ''
 								}
 								onClick={() => sortLabelHandler(obj)}
 							>

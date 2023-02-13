@@ -1,4 +1,8 @@
 import { FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { setCategoryId } from '../../redux/filter/filterSlice'
+import { RootState } from '../../redux/store'
 
 const categoryArray: string[] = [
 	'Все',
@@ -9,15 +13,10 @@ const categoryArray: string[] = [
 	'Закрытые',
 ]
 
-interface ICategoryProps {
-	categoryId: number
-	setCategoryId: (index: number) => void
-}
+export const Categories: FC = () => {
+	const categoryId = useSelector((state: RootState) => state.filter.categoryId)
+	const dispatch = useDispatch()
 
-export const Categories: FC<ICategoryProps> = ({
-	categoryId,
-	setCategoryId,
-}) => {
 	return (
 		<div className='categories'>
 			<ul>
@@ -25,7 +24,7 @@ export const Categories: FC<ICategoryProps> = ({
 					<li
 						key={categoryName}
 						className={categoryId === index ? 'active' : ''}
-						onClick={() => setCategoryId(index)}
+						onClick={() => dispatch(setCategoryId(index))}
 					>
 						{categoryName}
 					</li>
