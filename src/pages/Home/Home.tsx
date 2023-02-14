@@ -1,9 +1,7 @@
-import { FC, useContext, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { RootState } from '../../redux/store'
-
-import { IMyContext, MyContext } from '../../App'
 
 import {
 	Categories,
@@ -19,12 +17,11 @@ import { IProduct } from '../../Types/product.interface'
 export const Home: FC = () => {
 	const [products, setProducts] = useState<IProduct[]>([])
 	const [loading, setLoading] = useState<boolean>(true)
-	const [currentPage, setCurrentPage] = useState<number>(1)
 	const itemsPerPage = 4
 
-	const { searchValue } = useContext(MyContext) as IMyContext
-
-	const { categoryId, sort } = useSelector((state: RootState) => state.filter)
+	const { categoryId, sort, currentPage, searchValue } = useSelector(
+		(state: RootState) => state.filter
+	)
 
 	useEffect(() => {
 		setLoading(true)
@@ -62,9 +59,7 @@ export const Home: FC = () => {
 								<Product key={product.id} {...product} />
 						  ))}
 				</div>
-				<Pagination
-					onChangePageHandler={pageIndex => setCurrentPage(pageIndex)}
-				/>
+				<Pagination currentPage={currentPage} />
 			</div>
 		</div>
 	)
