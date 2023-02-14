@@ -9,10 +9,7 @@ interface IFilterState {
 	categoryId: number
 	currentPage: number
 	searchValue: string
-	sort: {
-		name: string
-		sortProperty: string
-	}
+	sort: ISort
 }
 
 const initialState: IFilterState = {
@@ -41,10 +38,20 @@ const filterSlice = createSlice({
 		setSearchValue: (state, action: PayloadAction<string>) => {
 			state.searchValue = action.payload
 		},
+		setFilters: (state, action: PayloadAction<any>) => {
+			state.sort = action.payload.sort
+			state.currentPage = Number(action.payload.currentPage)
+			state.categoryId = Number(action.payload.categoryId)
+		},
 	},
 })
 
-export const { setCategoryId, setSort, setCurrentPage, setSearchValue } =
-	filterSlice.actions
+export const {
+	setCategoryId,
+	setSort,
+	setCurrentPage,
+	setSearchValue,
+	setFilters,
+} = filterSlice.actions
 
 export const filter = filterSlice.reducer

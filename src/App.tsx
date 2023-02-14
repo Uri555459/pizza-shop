@@ -1,4 +1,4 @@
-import { createContext, FC, useState } from 'react'
+import { createContext, FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import { Layout } from './components'

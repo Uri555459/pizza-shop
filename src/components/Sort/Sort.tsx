@@ -4,12 +4,12 @@ import { RootState } from '../../redux/store'
 
 import { setSort } from '../../redux/filter/filterSlice'
 
-interface ISortLabelData {
+export interface ISortLabelData {
 	name: string
 	sortProperty: string
 }
 
-const sortLabelData: ISortLabelData[] = [
+export const sortLabelData: ISortLabelData[] = [
 	{ name: 'популярности (DESC)', sortProperty: 'rating' },
 	{ name: 'популярности (ASC)', sortProperty: '-rating' },
 	{ name: 'цене (DESC)', sortProperty: 'price' },
