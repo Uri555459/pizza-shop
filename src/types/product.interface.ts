@@ -18,3 +18,11 @@ export interface IProductCart {
 	size: number
 	count: number
 }
+
+export interface ISearchProductParams {
+	sortBy: string
+	order: string
+	category: string
+	search: string
+	currentPage: string
+}
