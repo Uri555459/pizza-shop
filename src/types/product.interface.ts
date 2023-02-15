@@ -8,3 +8,13 @@ export interface IProduct {
 	category: number
 	rating: number
 }
+
+export interface IProductCart {
+	id: number
+	title: string
+	price: number
+	imageUrl: string
+	type: string
+	size: number
+	count: number
+}

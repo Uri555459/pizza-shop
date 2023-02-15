@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 
@@ -20,6 +20,7 @@ export const sortLabelData: ISortLabelData[] = [
 
 export const Sort: FC = () => {
 	const [open, setOpen] = useState<boolean>(false)
+	const sortRef = useRef<HTMLDivElement>(null)
 	const sort = useSelector((state: RootState) => state.filter.sort)
 	const dispatch = useDispatch()
 
@@ -28,8 +29,20 @@ export const Sort: FC = () => {
 		setOpen(!open)
 	}
 
+	useEffect(() => {
+		const closeSortPopup = (event: MouseEvent) => {
+			if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
+				setOpen(false)
+			}
+		}
+
+		document.body.addEventListener('click', closeSortPopup)
+
+		return () => document.body.removeEventListener('click', closeSortPopup)
+	}, [])
+
 	return (
-		<div className='sort'>
+		<div className='sort' ref={sortRef}>
 			<div className='sort__label'>
 				<svg
 					width='10'

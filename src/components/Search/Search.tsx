@@ -2,15 +2,12 @@ import { FC, useRef, ChangeEvent, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import debounce from 'lodash.debounce'
 
-import { RootState } from '../../redux/store'
 import { setSearchValue } from '../../redux/filter/filterSlice'
-
-// import { IMyContext, MyContext } from '../../App'
 
 import styles from './Search.module.scss'
 
-const searchIcon = require('../../assets/img/search.svg').default
-const clearIcon = require('../../assets/img/close.svg').default
+import searchIcon from '../../assets/img/search.svg'
+import clearIcon from '../../assets/img/close.svg'
 
 export const Search: FC = () => {
 	const [value, setValue] = useState<string>('')

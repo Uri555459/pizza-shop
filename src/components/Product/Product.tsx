@@ -1,6 +1,10 @@
 import { FC, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { IProduct } from '../../Types/product.interface'
+import { addProduct } from '../../redux/cart/cartSlice'
+import { RootState } from '../../redux/store'
+
+import { IProduct } from '../../types/product.interface'
 
 const typeData: string[] = ['тонкое', 'традиционное']
 
@@ -14,9 +18,27 @@ export const Product: FC<IProduct> = ({
 	title,
 	types,
 }) => {
-	const [countProduct, setCountProduct] = useState<number>(0)
 	const [sizeProduct, setSizeProduct] = useState<number>(0)
 	const [typeProduct, setTypeProduct] = useState<number>(0)
+	const dispatch = useDispatch()
+	const cartProduct = useSelector((state: RootState) =>
+		state.cart.products.find(obj => obj.id === id)
+	)
+
+	const addedCount = cartProduct ? cartProduct.count : 0
+
+	const addProductHandler = () => {
+		const product = {
+			id,
+			title,
+			price,
+			imageUrl,
+			type: typeData[typeProduct],
+			size: sizes[sizeProduct],
+			count: 1,
+		}
+		dispatch(addProduct(product))
+	}
 
 	return (
 		<div className='pizza-block-wrapper'>
@@ -51,7 +73,7 @@ export const Product: FC<IProduct> = ({
 					<div className='pizza-block__price'>от {price} ₽</div>
 					<button
 						className='button button--outline button--add'
-						onClick={() => setCountProduct(countProduct + 1)}
+						onClick={addProductHandler}
 					>
 						<svg
 							width='12'
@@ -66,7 +88,7 @@ export const Product: FC<IProduct> = ({
 							/>
 						</svg>
 						<span>Добавить</span>
-						<i>{countProduct}</i>
+						{addedCount > 0 ? <i>{addedCount}</i> : null}
 					</button>
 				</div>
 			</div>

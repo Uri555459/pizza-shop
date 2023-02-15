@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import { ButtonLink } from '../../components'
 
-const emptyCartImage = require('../../assets/img/empty-cart.png')
+import emptyCartImage from '../../assets/img/empty-cart.png'
 
 export const CartEmpty: FC = () => {
 	return (

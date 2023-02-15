@@ -17,7 +17,7 @@ import {
 } from '../../components'
 import { sortLabelData } from '../../components/Sort/Sort'
 
-import { IProduct } from '../../Types/product.interface'
+import { IProduct } from '../../types/product.interface'
 
 export const Home: FC = () => {
 	const [products, setProducts] = useState<IProduct[]>([])

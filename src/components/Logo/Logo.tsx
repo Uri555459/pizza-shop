@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
-const logoImage = require('../../assets/img/pizza-logo.svg').default
+import logoImage from '../../assets/img/pizza-logo.svg'
 
 export const Logo: FC = () => {
 	return (
