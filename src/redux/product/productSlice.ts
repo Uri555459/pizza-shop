@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { instanceAxios } from '../../helpers/helpers'
-import { IProduct, ISearchProductParams } from '../../types/product.interface'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IProduct } from '../../types/product.interface'
+import { fetchProducts } from './asincActions'
 
 interface IProductState {
 	products: IProduct[]
@@ -9,23 +9,6 @@ interface IProductState {
 const initialState: IProductState = {
 	products: [],
 }
-
-const itemsPerPage = 4
-
-export const fetchProducts = createAsyncThunk<IProduct[], ISearchProductParams>(
-	'products/fetchProductsStatus',
-	async params => {
-		const { category, sortBy, order, search, currentPage } = params
-		const { data } = await instanceAxios.get<IProduct[]>(
-			`/products?page=${currentPage}
-			&limit=${itemsPerPage}&${category}
-			&sortBy=${sortBy}
-			&order=${order}${search}`
-		)
-
-		return data
-	}
-)
 
 const productsSlice = createSlice({
 	name: 'product',
@@ -36,9 +19,12 @@ const productsSlice = createSlice({
 		},
 	},
 	extraReducers: builder => {
-		builder.addCase(fetchProducts.fulfilled, (state, action) => {
-			state.products = action.payload
-		})
+		builder.addCase(
+			fetchProducts.fulfilled,
+			(state, action: PayloadAction<IProduct[]>) => {
+				state.products = action.payload
+			}
+		)
 	},
 })
 

@@ -14,7 +14,7 @@ import {
 	Sort,
 } from '../../components'
 import { sortLabelData } from '../../components/Sort/Sort'
-import { fetchProducts } from '../../redux/product/productSlice'
+import { fetchProducts } from '../../redux/product/asincActions'
 
 export const Home: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true)
