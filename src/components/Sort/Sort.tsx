@@ -1,8 +1,8 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../redux/store'
 
 import { setSort } from '../../redux/filter/filterSlice'
+import { selectFilter } from '../../redux/filter/selectors'
 
 export interface ISortLabelData {
 	name: string
@@ -21,7 +21,7 @@ export const sortLabelData: ISortLabelData[] = [
 export const Sort: FC = () => {
 	const [open, setOpen] = useState<boolean>(false)
 	const sortRef = useRef<HTMLDivElement>(null)
-	const sort = useSelector((state: RootState) => state.filter.sort)
+	const { sort } = useSelector(selectFilter)
 	const dispatch = useDispatch()
 
 	const sortLabelHandler = (sort: ISortLabelData) => {

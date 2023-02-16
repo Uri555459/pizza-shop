@@ -6,8 +6,9 @@ const itemsPerPage = 4
 
 export const fetchProducts = createAsyncThunk<IProduct[], ISearchProductParams>(
 	'products/fetchProductsStatus',
-	async params => {
+	async (params, thunkAPI) => {
 		const { category, sortBy, order, search, currentPage } = params
+
 		const { data } = await instanceAxios.get<IProduct[]>(
 			`/products?page=${currentPage}
 			&limit=${itemsPerPage}&${category}

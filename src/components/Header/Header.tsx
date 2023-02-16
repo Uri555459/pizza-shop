@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { Logo, Search } from '..'
-import { RootState } from '../../redux/store'
+import { selectCart } from '../../redux/cart/selectors'
 
 export const Header: FC = () => {
-	const { totalPrice, products } = useSelector((state: RootState) => state.cart)
+	const { totalPrice, products } = useSelector(selectCart)
 
 	const totalCount = products.reduce((sum, product) => sum + product.count, 0)
 

@@ -1,59 +1,52 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
 
-import { AppDispatch, RootState } from '../../redux/store'
+import { AppDispatch } from '../../redux/store'
 import { setFilters } from '../../redux/filter/filterSlice'
 
 import {
 	Categories,
 	Pagination,
 	Product,
+	ProductError,
 	ProductSkeleton,
+	SearchError,
 	Sort,
 } from '../../components'
 import { sortLabelData } from '../../components/Sort/Sort'
-import { fetchProducts } from '../../redux/product/asincActions'
+import { fetchProducts } from '../../redux/product/asyncActions'
+import { selectProduct } from '../../redux/product/selector'
+import { selectFilter } from '../../redux/filter/selectors'
 
 export const Home: FC = () => {
-	const [loading, setLoading] = useState<boolean>(true)
 	const navigate = useNavigate()
 	const dispatch = useDispatch<AppDispatch>()
 	const isSearch = useRef(false)
 	const isMounted = useRef(false)
 
-	const { categoryId, sort, currentPage, searchValue } = useSelector(
-		(state: RootState) => state.filter
-	)
-
-	const { products } = useSelector((state: RootState) => state.products)
+	const { products, status } = useSelector(selectProduct)
+	const { categoryId, sort, currentPage, searchValue } =
+		useSelector(selectFilter)
 
 	const getProducts = async () => {
-		try {
-			setLoading(true)
+		// Query parameters
+		const category = categoryId > 0 ? `category=${categoryId}` : ''
+		const sortBy = sort.sortProperty.replace('-', '')
+		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
+		const search = searchValue ? `&search=${searchValue}` : ''
 
-			// Query parameters
-			const category = categoryId > 0 ? `category=${categoryId}` : ''
-			const sortBy = sort.sortProperty.replace('-', '')
-			const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
-			const search = searchValue ? `&search=${searchValue}` : ''
-
-			// Query
-			dispatch(
-				fetchProducts({
-					category,
-					sortBy,
-					order,
-					search,
-					currentPage: String(currentPage),
-				})
-			)
-		} catch (error: any) {
-			console.error(new Error('Ошибка запроса на сервер'), error.message)
-		} finally {
-			setLoading(false)
-		}
+		// Query
+		dispatch(
+			fetchProducts({
+				category,
+				sortBy,
+				order,
+				search,
+				currentPage: String(currentPage),
+			})
+		)
 	}
 
 	// Если изменили параметры и был первый рендер
@@ -77,6 +70,7 @@ export const Home: FC = () => {
 			const sort = sortLabelData.find(
 				obj => obj.sortProperty === params.sortProperty
 			)
+
 			dispatch(setFilters({ ...params, sort }))
 			isSearch.current = true
 		}
@@ -89,8 +83,7 @@ export const Home: FC = () => {
 			getProducts()
 		}
 		isSearch.current = false
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [categoryId, sort.sortProperty, searchValue, currentPage])
+	}, [categoryId, currentPage, sort.sortProperty, searchValue])
 
 	return (
 		<div className='content'>
@@ -100,16 +93,19 @@ export const Home: FC = () => {
 					<Sort />
 				</div>
 				<h2 className='content__title'>Все пиццы</h2>
+				{status === 'error' && <ProductError />}
 				<div className='content__items'>
-					{loading
+					{status === 'loading'
 						? [...new Array(4)].map((_, index) => (
 								<ProductSkeleton key={index} />
 						  ))
-						: products.map(product => (
+						: products.length > 0 &&
+						  products.map(product => (
 								<Product key={product.id} {...product} />
 						  ))}
 				</div>
-				<Pagination currentPage={currentPage} />
+				{products.length === 0 && <SearchError />}
+				{products.length > 0 && <Pagination currentPage={currentPage} />}
 			</div>
 		</div>
 	)

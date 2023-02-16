@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IProductCart } from '../../types/product.interface'
-
-interface ICartState {
-	totalPrice: number
-	products: IProductCart[]
-}
+import { ICartState } from './types'
 
 const initialState: ICartState = {
 	totalPrice: 0,

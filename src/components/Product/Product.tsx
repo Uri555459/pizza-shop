@@ -2,7 +2,7 @@ import { FC, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { addProduct } from '../../redux/cart/cartSlice'
-import { RootState } from '../../redux/store'
+import { selectCartProductById } from '../../redux/cart/selectors'
 
 import { IProduct } from '../../types/product.interface'
 
@@ -21,9 +21,7 @@ export const Product: FC<IProduct> = ({
 	const [sizeProduct, setSizeProduct] = useState<number>(0)
 	const [typeProduct, setTypeProduct] = useState<number>(0)
 	const dispatch = useDispatch()
-	const cartProduct = useSelector((state: RootState) =>
-		state.cart.products.find(obj => obj.id === id)
-	)
+	const cartProduct = useSelector(selectCartProductById(id))
 
 	const addedCount = cartProduct ? cartProduct.count : 0
 

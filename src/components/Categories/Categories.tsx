@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { setCategoryId } from '../../redux/filter/filterSlice'
-import { RootState } from '../../redux/store'
+import { selectFilter } from '../../redux/filter/selectors'
 
 const categoryArray: string[] = [
 	'Все',
@@ -14,7 +14,7 @@ const categoryArray: string[] = [
 ]
 
 export const Categories: FC = () => {
-	const categoryId = useSelector((state: RootState) => state.filter.categoryId)
+	const { categoryId } = useSelector(selectFilter)
 	const dispatch = useDispatch()
 
 	return (

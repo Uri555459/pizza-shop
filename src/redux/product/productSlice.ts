@@ -1,13 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IProduct } from '../../types/product.interface'
-import { fetchProducts } from './asincActions'
-
-interface IProductState {
-	products: IProduct[]
-}
+import { fetchProducts } from './asyncActions'
+import { IProductState } from './types'
 
 const initialState: IProductState = {
 	products: [],
+	status: 'loading',
 }
 
 const productsSlice = createSlice({
@@ -19,12 +17,21 @@ const productsSlice = createSlice({
 		},
 	},
 	extraReducers: builder => {
+		builder.addCase(fetchProducts.pending, state => {
+			state.status = 'loading'
+			state.products = []
+		})
 		builder.addCase(
 			fetchProducts.fulfilled,
 			(state, action: PayloadAction<IProduct[]>) => {
 				state.products = action.payload
+				state.status = 'success'
 			}
 		)
+		builder.addCase(fetchProducts.rejected, state => {
+			state.products = []
+			state.status = 'error'
+		})
 	},
 })
 
