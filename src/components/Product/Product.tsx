@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { addProduct } from '../../redux/cart/cartSlice'
 import { selectCartProductById } from '../../redux/cart/selectors'
@@ -41,8 +42,12 @@ export const Product: FC<IProduct> = ({
 	return (
 		<div className='pizza-block-wrapper'>
 			<div className='pizza-block'>
-				<img className='pizza-block__image' src={imageUrl} alt={title} />
-				<h4 className='pizza-block__title'>{title}</h4>
+				<Link to={`/${id}`}>
+					<img className='pizza-block__image' src={imageUrl} alt={title} />
+				</Link>
+				<Link to={`/${id}`}>
+					<h4 className='pizza-block__title'>{title}</h4>
+				</Link>
 				<div className='pizza-block__selector'>
 					<ul>
 						{types.map((type, index) => (

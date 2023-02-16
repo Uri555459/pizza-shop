@@ -86,27 +86,21 @@ export const Home: FC = () => {
 	}, [categoryId, currentPage, sort.sortProperty, searchValue])
 
 	return (
-		<div className='content'>
-			<div className='container'>
-				<div className='content__top'>
-					<Categories />
-					<Sort />
-				</div>
-				<h2 className='content__title'>Все пиццы</h2>
-				{status === 'error' && <ProductError />}
-				<div className='content__items'>
-					{status === 'loading'
-						? [...new Array(4)].map((_, index) => (
-								<ProductSkeleton key={index} />
-						  ))
-						: products.length > 0 &&
-						  products.map(product => (
-								<Product key={product.id} {...product} />
-						  ))}
-				</div>
-				{products.length === 0 && <SearchError />}
-				{products.length > 0 && <Pagination currentPage={currentPage} />}
+		<div className='container'>
+			<div className='content__top'>
+				<Categories />
+				<Sort />
 			</div>
+			<h2 className='content__title'>Все пиццы</h2>
+			{status === 'error' && <ProductError />}
+			<div className='content__items'>
+				{status === 'loading'
+					? [...new Array(4)].map((_, index) => <ProductSkeleton key={index} />)
+					: products.length > 0 &&
+					  products.map(product => <Product key={product.id} {...product} />)}
+			</div>
+			{products.length === 0 && <SearchError />}
+			{products.length > 0 && <Pagination currentPage={currentPage} />}
 		</div>
 	)
 }

@@ -1,15 +1,14 @@
-import { FC, ReactNode } from 'react'
+import { FC } from 'react'
+import { Outlet } from 'react-router-dom'
 import { Header } from '..'
 
-interface ILayoutProps {
-	children?: ReactNode
-}
-
-export const Layout: FC<ILayoutProps> = ({ children }) => {
+export const Layout: FC = () => {
 	return (
 		<div className='wrapper'>
 			<Header />
-			{children}
+			<div className='content'>
+				<Outlet />
+			</div>
 		</div>
 	)
 }

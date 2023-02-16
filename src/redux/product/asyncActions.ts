@@ -10,7 +10,7 @@ export const fetchProducts = createAsyncThunk<IProduct[], ISearchProductParams>(
 		const { category, sortBy, order, search, currentPage } = params
 
 		const { data } = await instanceAxios.get<IProduct[]>(
-			`/products?page=${currentPage}
+			`?page=${currentPage}
 			&limit=${itemsPerPage}&${category}
 			&sortBy=${sortBy}
 			&order=${order}${search}`
