@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { instanceAxios } from '../../helpers/helpers'
+import { instanceAxios } from '../../utils/utils'
 import { IProduct } from '../../types/product.interface'
 
 import styles from './Single.module.scss'

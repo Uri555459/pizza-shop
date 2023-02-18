@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -20,6 +20,8 @@ export const Cart: FC = () => {
 			dispatch(clearProducts())
 		}
 	}
+
+	useEffect(() => {}, [])
 
 	if (!totalCount) {
 		return <CartEmpty />

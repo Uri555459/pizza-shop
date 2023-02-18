@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { instanceAxios } from '../../helpers/helpers'
+import { instanceAxios } from '../../utils/utils'
 import { IProduct, ISearchProductParams } from '../../types/product.interface'
 
 const itemsPerPage = 4
