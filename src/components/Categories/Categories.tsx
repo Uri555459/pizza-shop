@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { setCategoryId } from '../../redux/filter/filterSlice'
@@ -13,7 +13,7 @@ const categoryArray: string[] = [
 	'Закрытые',
 ]
 
-export const Categories: FC = () => {
+export const Categories: FC = memo(() => {
 	const { categoryId } = useSelector(selectFilter)
 	const dispatch = useDispatch()
 
@@ -32,4 +32,4 @@ export const Categories: FC = () => {
 			</ul>
 		</div>
 	)
-}
+})

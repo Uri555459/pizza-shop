@@ -1,15 +1,11 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, memo, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { setSort } from '../../redux/filter/filterSlice'
 import { selectFilter } from '../../redux/filter/selectors'
+import { ISort } from '../../redux/filter/types'
 
-export interface ISortLabelData {
-	name: string
-	sortProperty: string
-}
-
-export const sortLabelData: ISortLabelData[] = [
+export const sortLabelData: ISort[] = [
 	{ name: 'популярности (DESC)', sortProperty: 'rating' },
 	{ name: 'популярности (ASC)', sortProperty: '-rating' },
 	{ name: 'цене (DESC)', sortProperty: 'price' },
@@ -18,13 +14,13 @@ export const sortLabelData: ISortLabelData[] = [
 	{ name: 'алфавиту (ASC)', sortProperty: '-title' },
 ]
 
-export const Sort: FC = () => {
+export const Sort: FC = memo(() => {
 	const [open, setOpen] = useState<boolean>(false)
 	const sortRef = useRef<HTMLDivElement>(null)
 	const { sort } = useSelector(selectFilter)
 	const dispatch = useDispatch()
 
-	const sortLabelHandler = (sort: ISortLabelData) => {
+	const sortLabelHandler = (sort: ISort) => {
 		dispatch(setSort(sort))
 		setOpen(!open)
 	}
@@ -78,4 +74,4 @@ export const Sort: FC = () => {
 			)}
 		</div>
 	)
-}
+})
