@@ -7,11 +7,12 @@ import { CartEmpty } from './CartEmpty'
 
 import { clearProducts } from '../../redux/cart/cartSlice'
 import { selectCart } from '../../redux/cart/selectors'
+import { calcTotalPrice } from '../../utils/utils'
 
 export const Cart: FC = () => {
 	const dispatch = useDispatch()
 	const { products, totalPrice } = useSelector(selectCart)
-	const totalCount = products.reduce((sum, product) => sum + product.count, 0)
+	const totalCount = calcTotalPrice(products)
 
 	const clearCartHandler = () => {
 		if (

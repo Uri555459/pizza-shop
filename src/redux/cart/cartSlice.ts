@@ -41,9 +41,7 @@ const cartSlice = createSlice({
 		removeProduct: (state, action: PayloadAction<number>) => {
 			state.products = state.products.filter(obj => obj.id !== action.payload)
 
-			state.totalPrice = state.products.reduce((sum, obj) => {
-				return obj.price * obj.count + sum
-			}, 0)
+			state.totalPrice = calcTotalPrice(state.products)
 		},
 
 		clearProducts: state => {

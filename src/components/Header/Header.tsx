@@ -4,13 +4,14 @@ import { Link, useLocation } from 'react-router-dom'
 
 import { Logo, Search } from '..'
 import { selectCart } from '../../redux/cart/selectors'
+import { calcTotalPrice } from '../../utils/utils'
 
 export const Header: FC = () => {
 	const { totalPrice, products } = useSelector(selectCart)
 	const { pathname } = useLocation()
 	const isMounted = useRef(false)
 
-	const totalCount = products.reduce((sum, product) => sum + product.count, 0)
+	const totalCount = calcTotalPrice(products)
 
 	useEffect(() => {
 		if (isMounted.current) {
